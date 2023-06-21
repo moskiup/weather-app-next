@@ -1,0 +1,8 @@
+
+GET
+https://api.openweathermap.org/data/3/onecall?lat=20.6667&lon=-103.3333&exclude=minutely&appid=73023ffd0325ec02832b91e190a04f6d
+
+###
+GET
+http://api.openweathermap.org/data/2.5/weather?lat=20.6667&lon=-103.3333&appid=73023ffd0325ec02832b91e190a04f6d&units=metric
+
