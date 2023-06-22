@@ -49,9 +49,9 @@ async function getAllData() {
 async function getLangLong(city) {
   const data1 = await fetch(`${BASE_URL}weather?q=${city}&appid=${API_KEY}`)
     .then((resp) => resp.json())
-    .then((data) => data)
-    .catch((erro) => console.log(erro));
-  return [data1.coord.lat, data1.coord.lon];
+    .then((data) => [data.coord.lat, data.coord.lon])
+    .catch((erro) => []);
+  return data1;
 }
 
 async function getDayData(lat, long, metric = true) {
@@ -63,6 +63,7 @@ async function getDayData(lat, long, metric = true) {
     .then((data) => data)
     .catch((erro) => console.log(erro));
 
+  console.log(data1);
   const { coord, wind, sys, timezone, name, main, weather, dt } = data1;
   const parsedData = {
     lat: coord.lat,
@@ -95,7 +96,6 @@ async function getDayHourData(lat, long) {
   // console.log(data);
 
   const data = respuesta;
-  console.log(data);
   const result = data.hourly.map((w) => {
     return {
       time: new Date(w.dt * 1000),

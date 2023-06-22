@@ -10,6 +10,8 @@ import {
 
 import Image from 'next/image';
 import Moment from 'react-moment';
+import { useMyContext } from '@/context/myContext';
+import { useWeather } from '@/hooks/useWeather';
 
 export function Today({ data }) {
   const today = data;
@@ -17,18 +19,15 @@ export function Today({ data }) {
     today && (
       <div className="flex items-center flex-col">
         <p className="m-4 text-lg">
-          <Moment date={today.sunset} format="DD MMM YYYY" />
+          <Moment date={today.now} format="DD MMM YYYY" utc />
           | Local time
-          <Moment
-            date={today.dt}
-            format=" : hh:mm A"
-            // add={{ hours: today.timezone + 6 }}
-          />
-          <Moment date={today.timezone} format="h" />
-          {/* Tuesday ,           31 May 2022 | Local time : 11:24 AM */}
+          <Moment date={today.now} format=" : hh:mm A" utc />
+          {today.timezone}
         </p>
         <p className="text-3xl">{today.name}</p>
-        <p className="text-xl m-4 text-cyan-300 font-semibold">{today.weather.main}</p>
+        <p className="text-xl m-4 text-slate-200 font-semibold">
+          {today.weather.main.toUpperCase()}
+        </p>
         <div className="flex justify-around items-center w-full">
           <p>
             <Image

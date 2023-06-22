@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { useEffect, useContext } from 'react';
 import Moment from 'react-moment';
 
 export function Hourly({ data }) {
