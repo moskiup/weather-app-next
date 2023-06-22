@@ -2,7 +2,6 @@ const BASE_URL = 'http://api.openweathermap.org/data/2.5/';
 const API_KEY = process.env.API_KEY;
 
 function urlIcon(code) {
-
   const list_images = {
     mist: 'mist.svg',
     clear: 'clear-sky.svg',
@@ -44,6 +43,15 @@ async function getAllData() {
     .then((resp) => resp.json())
     .then((data) => data)
     .catch((erro) => console.log(erro));
+}
+
+async function getLangLong(city) {
+  const data1 = await fetch(`${BASE_URL}weather?q=${city}&appid=${API_KEY}`)
+    .then((resp) => resp.json())
+    .then((data) => data)
+    .catch((erro) => console.log(erro));
+
+  console.log(data1);
 }
 
 async function getDayData(lat, long) {
@@ -113,54 +121,4 @@ async function getDailyData(lat, long) {
   return result.slice(1, 6);
 }
 
-export { getDayData, getDayHourData, getDailyData };
-
-const data2 = {
-  coord: {
-    lon: -103.3333,
-    lat: 20.6667,
-  },
-  weather: [
-    {
-      id: 721,
-      main: 'Haze',
-      description: 'haze',
-      icon: '50d',
-    },
-    {
-      id: 711,
-      main: 'Smoke',
-      description: 'smoke',
-      icon: '50d',
-    },
-  ],
-  base: 'stations',
-  main: {
-    temp: 36.1,
-    feels_like: 34.31,
-    temp_min: 34.87,
-    temp_max: 36.1,
-    pressure: 1018,
-    humidity: 20,
-  },
-  visibility: 4828,
-  wind: {
-    speed: 2.06,
-    deg: 140,
-  },
-  clouds: {
-    all: 0,
-  },
-  dt: 1687378326,
-  sys: {
-    type: 2,
-    id: 268566,
-    country: 'MX',
-    sunrise: 1687349609,
-    sunset: 1687397798,
-  },
-  timezone: -21600,
-  id: 4005539,
-  name: 'Guadalajara',
-  cod: 200,
-};
+export { getDayData, getDayHourData, getDailyData, getLangLong };
