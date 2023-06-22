@@ -1,5 +1,6 @@
 const BASE_URL = 'http://api.openweathermap.org/data/2.5/';
 const API_KEY = process.env.API_KEY;
+import { respuesta } from './response';
 
 function urlIcon(code) {
   const list_images = {
@@ -50,13 +51,13 @@ async function getLangLong(city) {
     .then((resp) => resp.json())
     .then((data) => data)
     .catch((erro) => console.log(erro));
-
-  console.log(data1);
+  return [data1.coord.lat, data1.coord.lon];
 }
 
-async function getDayData(lat, long) {
+async function getDayData(lat, long, metric = true) {
+  const units = metric ? 'metric' : 'imperial';
   const data1 = await fetch(
-    `${BASE_URL}weather?lat=${lat}&lon=${long}&appid=${API_KEY}&units=metric`
+    `${BASE_URL}weather?lat=${lat}&lon=${long}&appid=${API_KEY}&units=${units}`
   )
     .then((resp) => resp.json())
     .then((data) => data)
@@ -85,12 +86,16 @@ async function getDayData(lat, long) {
   return { ...parsedData };
 }
 async function getDayHourData(lat, long) {
-  const data = await fetch(
-    `${BASE_URL}onecall?lat=${lat}&lon=${long}&exclude=minutely,alerts,current&appid=${API_KEY}&units=metric`
-  )
-    .then((resp) => resp.json())
-    .catch((erro) => console.log(erro));
+  // const data = await fetch(
+  //   `${BASE_URL}onecall?lat=${lat}&lon=${long}&exclude=minutely,alerts,current&appid=${API_KEY}&units=metric`
+  // )
+  //   .then((resp) => resp.json())
+  //   .catch((erro) => console.log(erro));
 
+  // console.log(data);
+
+  const data = respuesta;
+  console.log(data);
   const result = data.hourly.map((w) => {
     return {
       time: new Date(w.dt * 1000),
@@ -104,12 +109,13 @@ async function getDayHourData(lat, long) {
 }
 
 async function getDailyData(lat, long) {
-  const data = await fetch(
-    `${BASE_URL}onecall?lat=${lat}&lon=${long}&exclude=minutely,alerts,current&appid=${API_KEY}&units=metric`
-  )
-    .then((resp) => resp.json())
-    .catch((erro) => console.log(erro));
+  // const data = await fetch(
+  //   `${BASE_URL}onecall?lat=${lat}&lon=${long}&exclude=minutely,alerts,current&appid=${API_KEY}&units=metric`
+  // )
+  //   .then((resp) => resp.json())
+  //   .catch((erro) => console.log(erro));
 
+  const data = respuesta;
   const result = data.daily.map((w) => {
     return {
       time: new Date(w.dt * 1000),
