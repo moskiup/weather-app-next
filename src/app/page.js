@@ -7,26 +7,11 @@ import { Hourly } from '@/components/hourly';
 import { Daily } from '@/components/daily';
 
 import { useState, useEffect } from 'react';
-import { getDailyData, getDayData, getDayHourData } from '@/services/api';
+
+import { useWeather } from '@/hooks/useWeather';
 
 export default function Home() {
-  const [today, setToday] = useState(null);
-  const [hourly, setHourly] = useState(null);
-  const [daily, setDaily] = useState(null);
-
-  useEffect(() => {
-    const today_data = async () => {
-      const data = await getDayData(20.671, -103.3299);
-
-      const data1 = await getDayHourData(20.671, -103.3299);
-      const data2 = await getDailyData(20.671, -103.3299);
-      setToday(data);
-      setHourly(data1);
-      setDaily(data2);
-    };
-    console.log('entro');
-    today_data();
-  }, []);
+  const { daily, today, hourly } = useWeather();
 
   return (
     <div className="flex justify-center items-center  h-screen ">
