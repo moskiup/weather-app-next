@@ -6,10 +6,7 @@ import { Today } from '@/components/today';
 import { Hourly } from '@/components/hourly';
 import { Daily } from '@/components/daily';
 import { Error } from '@/components/error';
-import { useEffect, useState } from 'react';
-import { MyProvider, useMyContext } from '@/context/myContext';
 import { useWeather } from '@/hooks/useWeather';
-import { useLocalStore } from '@/hooks/useLocalStore';
 import Background from '@/components/background';
 
 export default function Home() {

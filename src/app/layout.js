@@ -1,7 +1,6 @@
 'use client';
 import './globals.css';
 import { Inter } from 'next/font/google';
-import { MyProvider } from '@/context/myContext';
 import Script from 'next/script';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -13,12 +12,10 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <MyProvider>
-      <html lang="en">
-        <body className={inter.className}>{children}</body>
-        <Script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenMax.min.js" />
-        <Script src="https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.4.1/snap.svg-min.js" />
-      </html>
-    </MyProvider>
+    <html lang="en">
+      <body className={inter.className}>{children}</body>
+      <Script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenMax.min.js" />
+      <Script src="https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.4.1/snap.svg-min.js" />
+    </html>
   );
 }

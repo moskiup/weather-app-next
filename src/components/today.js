@@ -10,8 +10,6 @@ import {
 
 import Image from 'next/image';
 import Moment from 'react-moment';
-import { useMyContext } from '@/context/myContext';
-import { useWeather } from '@/hooks/useWeather';
 
 export function Today({ data }) {
   const today = data;
