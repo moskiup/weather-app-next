@@ -1,5 +1,5 @@
 const BASE_URL = 'http://api.openweathermap.org/data/2.5/';
-console.log(process.env);
+console.log('aa' + process.env);
 const API_KEY = process.env.API_KEY;
 import { respuesta } from './response';
 
