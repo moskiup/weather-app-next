@@ -45,11 +45,12 @@ export function Inputs({ setGps, isMetric, changeUnits, setCity }) {
         className=" text-sm  p-1 w-full min-w-[150px]  md:text-base font-normal text-slate-600  focus:outline-none md:p-2   rounded-md"
         ref={refElem}
         onKeyDown={handleKey}
+        aria-label="City Search"
       />
-      <button className="m-0" onClick={handleSearch}>
+      <button className="m-0" aria-label="Search" onClick={handleSearch}>
         <UilSearch size={35} className="text-white" />
       </button>
-      <button onClick={getGPS}>
+      <button onClick={getGPS} aria-label="Get location gps">
         <UilLocationPoint size={35} className="text-white" />
       </button>
       <div className="flex flex-row w-1/4 items-center justify-center">
@@ -58,6 +59,7 @@ export function Inputs({ setGps, isMetric, changeUnits, setCity }) {
           className={`${isMetric ? 'text-cyan-300 font-bold' : ' text-white'} md:text-lg `}
           disabled={isMetric}
           onClick={() => handleUnits(true)}
+          aria-label="celsius"
         >
           ºC
         </button>
@@ -67,6 +69,7 @@ export function Inputs({ setGps, isMetric, changeUnits, setCity }) {
           className={`${!isMetric ? 'text-cyan-300 font-bold' : ' text-white'} md:text-lg`}
           disabled={!isMetric}
           onClick={() => handleUnits(false)}
+          aria-label="farenheit"
         >
           ºF
         </button>
