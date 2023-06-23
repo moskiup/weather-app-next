@@ -3,10 +3,10 @@ import Moment from 'react-moment';
 
 export function Daily({ data }) {
   return (
-    <div className="m-2">
+    <div className="p-4 md:m-2">
       <h2>Daily FORECAST</h2>
       <div className="w-full h-[2px] bg-cyan-300"></div>
-      <div className="flex justify-around mt-5">
+      <div className="flex justify-around flex-wrap mt-5">
         {data &&
           data.map((x, i) => {
             return (

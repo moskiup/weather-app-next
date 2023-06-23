@@ -20,10 +20,10 @@ export default function Home() {
     ) : (
       <div className="100vh bg-slate-300 w-full">
         <Background />
-        <div className="flex justify-center items-center  h-screen ">
-          {error && <Error />};
-          <div className="flex justify-center w-max p-10 shadow-xl z-10 border-white border-[1px] backdrop-blur-lg border-opacity-30 shadow-slate-800  h-auto py-10 bg-sky-600 bg-opacity-60  rounded-lg overflow-hidden">
-            <div className="flex flex-col">
+        <div className="flex  sm:text-base justify-center items-center w-full md:h-screen">
+          {error && <Error />}
+          <div className="flex justify-center p-2 md:p-10 shadow-xl  z-10 border-white border-[1px] backdrop-blur-lg border-opacity-30 shadow-slate-800  h-auto  bg-sky-600 bg-opacity-60  rounded-lg overflow-hidden">
+            <div className="flex flex-col min-w-[320px] md:min-w-[620px]">
               <Header setCity={setCity} cities={cities} />
               <Inputs
                 setGps={setGps}
