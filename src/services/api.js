@@ -24,16 +24,9 @@ function urlIcon(code) {
     '56d': list_images.snow,
     '57d': list_images.thunderstorm,
     default: list_images.clear,
-
-    // 'http://openweathermap.org/img/wn/${code}@2x.png'
   };
-  // if (list_codes[code] === undefined) console.log(code);
 
-  const url = `http://openweathermap.org/img/wn/${code}@2x.png`;
-  // list_codes[code] === undefined
-  //   ? `/img/${list_codes[code]}`
-  //   : `http://openweathermap.org/img/wn/${code}@2x.png`;
-
+  const url = `https://openweathermap.org/img/wn/${code}@2x.png`;
   return url;
 }
 
@@ -63,7 +56,6 @@ async function getDayData(lat, long, metric = true) {
     .then((data) => data)
     .catch((erro) => console.log(erro));
 
-  console.log(data1);
   const { coord, wind, sys, timezone, name, main, weather, dt } = data1;
   const parsedData = {
     lat: coord.lat,
