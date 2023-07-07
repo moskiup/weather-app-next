@@ -1,27 +1,9 @@
 import { useRef } from 'react';
 import { UilSearch, UilLocationPoint } from '@iconscout/react-unicons';
+import { getGPS } from '@/utils/utils';
 
 export function Inputs({ setGps, isMetric, changeUnits, setCity }) {
   const refElem = useRef(null);
-
-  function getGPS() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        function (position) {
-          const lat = position.coords.latitude;
-          const lon = position.coords.longitude;
-          // console.log('Latitude:', lat);
-          // console.log('Longitude:', lon);
-          setGps({ lat, lon });
-        },
-        function (error) {
-          console.log('Error getting location:', error.message);
-        }
-      );
-    } else {
-      console.log('Geolocation is not supported by this browser.');
-    }
-  }
 
   function handleUnits(val) {
     changeUnits(val);
@@ -50,7 +32,7 @@ export function Inputs({ setGps, isMetric, changeUnits, setCity }) {
       <button className="m-0" aria-label="Search" onClick={handleSearch}>
         <UilSearch size={35} className="text-white" />
       </button>
-      <button onClick={getGPS} aria-label="Get location gps">
+      <button onClick={()=>getGPS(setGps)} aria-label="Get location gps">
         <UilLocationPoint size={35} className="text-white" />
       </button>
       <div className="flex flex-row w-1/4 items-center justify-center">
