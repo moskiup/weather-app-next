@@ -48,9 +48,8 @@ async function getLangLong(city) {
 }
 
 async function getDayData(lat, long, metric = true) {
-  const units = metric ? 'metric' : 'imperial';
   const data1 = await fetch(
-    `${BASE_URL}weather?lat=${lat}&lon=${long}&appid=${API_KEY}&units=${units}`
+    `${BASE_URL}weather?lat=${lat}&lon=${long}&appid=${API_KEY}&units=metric`
   )
     .then((resp) => resp.json())
     .then((data) => data)
@@ -76,7 +75,7 @@ async function getDayData(lat, long, metric = true) {
     timezone: timezone / 3600,
   };
 
-  return { ...parsedData };
+  return parsedData;
 }
 async function getDayHourData(lat, long) {
   // const data = await fetch(
