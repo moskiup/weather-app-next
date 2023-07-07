@@ -31,8 +31,8 @@ export default function Home() {
                 setCity={setCity}
               />
               <Today data={today} isMetric={isMetric} />
-              <WeatherInfo title="HOURLY CAST" data={hourly} isMetric={isMetric} />
-              <WeatherInfo title="DAILY FORECAST" data={daily} isMetric={isMetric} />
+              <WeatherInfo prefix="h" title="HOURLY CAST" data={hourly} isMetric={isMetric} />
+              <WeatherInfo prefix="d" title="DAILY FORECAST" data={daily} isMetric={isMetric} />
             </div>
           </div>
         </div>
