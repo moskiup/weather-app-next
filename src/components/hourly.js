@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import { useEffect, useContext } from 'react';
 import Moment from 'react-moment';
 
 export function Hourly({ data }) {
@@ -11,7 +10,7 @@ export function Hourly({ data }) {
         {data &&
           data.map((x, i) => {
             return (
-              <div key={i} className="flex justify-center   flex-col text-center">
+              <div key={i} className="flex  justify-center   flex-col text-center">
                 <div>
                   <Moment date={x.time} format="hh:mm A" />
                 </div>
