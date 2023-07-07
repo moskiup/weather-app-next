@@ -10,8 +10,9 @@ import {
 
 import Image from 'next/image';
 import Moment from 'react-moment';
+import { getTempFormat } from '@/utils/utils';
 
-export function Today({ data }) {
+export function Today({ data , isMetric }) {
   const today = data;
   return (
     today && (
@@ -35,12 +36,12 @@ export function Today({ data }) {
             />
           </div>
           <div className="text-7xl order-1 md:order-2 md:w-1/3 w-full text-center">
-            {today.temp.toFixed(0)}º
+            {getTempFormat(today.temp , isMetric) }
           </div>
           <div className="order-3 w-1/2 md:w-1/3 flex-row  flex justify-center  md:order-3">
             <div className="">
               <div className="flex m-x-auto">
-                <UilTemperatureHalf /> Real felt: {today.feels_like.toFixed(0)}º
+                <UilTemperatureHalf /> Real felt: {getTempFormat(today.feels_like, isMetric) }
               </div>
               <p className="flex">
                 <UilTear />
@@ -70,13 +71,13 @@ export function Today({ data }) {
 
           <div className="w-2/4  md:w-1/4 flex justify-center order-2 md:order-3">
             <UilArrowUp />
-            <span className="md:mx-2 justify-center"> High: {today.temp_max.toFixed(0)}º</span>
+            <span className="md:mx-2 justify-center"> High: {getTempFormat(today.temp_max, isMetric)}</span>
             <span className="hidden md:block">|</span>
           </div>
 
           <div className=" w-2/4 md:w-1/4 flex justify-center order-4 md:order-4">
             <UilArrowDown />
-            <span className="md:ml-2">Low: {today.temp_min.toFixed(0)}º</span>
+            <span className="md:ml-2">Low: {getTempFormat(today.temp_min , isMetric)} </span>
           </div>
           <p></p>
         </div>

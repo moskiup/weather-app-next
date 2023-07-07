@@ -3,11 +3,10 @@
 import { Header } from '@/components/header';
 import { Inputs } from '@/components/inputs';
 import { Today } from '@/components/today';
-import { Hourly } from '@/components/hourly';
-import { Daily } from '@/components/daily';
 import { Error } from '@/components/error';
 import { useWeather } from '@/hooks/useWeather';
 import Background from '@/components/background';
+import { WeatherInfo } from '@/components/weatherinfo';
 
 export default function Home() {
   // const isLoading = false;
@@ -31,9 +30,9 @@ export default function Home() {
                 changeUnits={changeUnits}
                 setCity={setCity}
               />
-              <Today data={today} />
-              <Hourly data={hourly} />
-              <Daily data={daily} />
+              <Today data={today} isMetric={isMetric} />
+              <WeatherInfo title="HOURLY CAST" data={hourly} isMetric={isMetric} />
+              <WeatherInfo title="DAILY FORECAST" data={daily} isMetric={isMetric} />
             </div>
           </div>
         </div>
