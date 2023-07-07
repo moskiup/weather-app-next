@@ -3,7 +3,7 @@ import Moment from 'react-moment';
 import { getTempFormat } from '@/utils/utils';
 import { Card } from './card';
 
-export function WeatherInfo({ title, data, isMetric }) {
+export function WeatherInfo({prefix, title, data, isMetric }) {
   return (
     <div className="m-2">
       <h2>{title}</h2>
@@ -11,9 +11,10 @@ export function WeatherInfo({ title, data, isMetric }) {
       <div className="flex justify-around mt-3 flex-wrap text-sm md:text-base">
         {data &&
           data.map((x, i) => {
+            const key = prefix + i;
             return (
               <Card
-                key={'h' + i}
+                key={key}
                 texttop={<Moment date={x.time} format="hh:mm A" />}
                 textbottom={getTempFormat(x.temp, isMetric)}
                 imgurl={x.url_icon}
