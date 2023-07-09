@@ -1,46 +1,36 @@
-'use client';
+"use client"
 
-import { Header } from '@/components/header';
-import { Inputs } from '@/components/inputs';
 import { Today } from '@/components/today';
 import { useWeather } from '@/hooks/useWeather';
-import Background from '@/components/background';
 import { WeatherInfo } from '@/components/weatherinfo';
-import { Suspense, useMemo } from 'react';
 import { Loader } from '@/components/loader';
+import { Inputs } from '@/components/inputs';
+import { Header } from '@/components/header';
+import { useMyContext } from '@/context/myContext';
+import { DailyInfo } from '@/components/dailyinfo';
+import { HourlyInfo } from '@/components/hourlyinfo';
+
 
 export default function Home() {
-  const { daily, today, hourly, setGps, isMetric, changeUnits, setCity, isLoading, error, cities } =
+    const {  setGps, changeUnits, setCity,  error } =
     useWeather();
+    const {isLoading ,  weatherResponse , cities} = useMyContext();
 
-
-  if(error){
-    return (<h1>{error.message}</h1>)
-  }
+    // if(error){
+  //   return (<h1>{error.message}</h1>)
+  // }
 
   return (
     <>
-      {isLoading ? (
+      {isLoading  ? (
         <Loader />
       ) : (
         <div className="flex flex-col w-full">
-          <Header setCity={setCity} cities={cities} />
-          <Inputs setGps={setGps} isMetric={isMetric} changeUnits={changeUnits} setCity={setCity} />
-          <Today data={today} isMetric={isMetric} />
-          <WeatherInfo
-            prefix="h"
-            title="HOURLY CAST"
-            data={hourly}
-            isMetric={isMetric}
-            formatCard="hh:mm A"
-          />
-          <WeatherInfo
-            prefix="d"
-            title="DAILY FORECAST"
-            data={daily}
-            isMetric={isMetric}
-            formatCard="dddd"
-          />
+          <Header setCity={setCity} />
+          <Inputs setGps={setGps}  changeUnits={changeUnits} setCity={setCity} />
+          <Today />
+          <HourlyInfo />
+          <DailyInfo />
         </div>
       )}
     </>

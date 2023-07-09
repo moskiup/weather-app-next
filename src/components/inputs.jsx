@@ -1,14 +1,16 @@
+'use client';
+
 import { useRef } from 'react';
 import { UilSearch, UilLocationPoint } from '@iconscout/react-unicons';
 import { getGPS } from '@/utils/utils';
+import { useMyContext } from '@/context/myContext';
 
-export function Inputs({ setGps, isMetric, changeUnits, setCity }) {
-
-
+export function Inputs({ changeUnits, setCity }) {
+  const { updateContext, isMetric } = useMyContext();
   const refElem = useRef(null);
 
   function handleUnits(val) {
-    changeUnits(val);
+    updateContext({isMetric:val})
   }
 
   function handleSearch() {
@@ -19,6 +21,10 @@ export function Inputs({ setGps, isMetric, changeUnits, setCity }) {
 
   function handleKey(evt) {
     if (evt.key === 'Enter') handleSearch();
+  }
+
+  function setGps(lat, lon) {
+    updateContext({ gps: { lat, lon } });
   }
 
   return (
@@ -33,7 +39,7 @@ export function Inputs({ setGps, isMetric, changeUnits, setCity }) {
       <button className="m-0" aria-label="Search" onClick={handleSearch}>
         <UilSearch size={35} className="text-white" />
       </button>
-      <button onClick={()=>getGPS(setGps)} aria-label="Get location gps">
+      <button onClick={async () => updateContext(await getGPS())} aria-label="Get location gps">
         <UilLocationPoint size={35} className="text-white" />
       </button>
       <div className="flex flex-row w-1/4 items-center justify-center">

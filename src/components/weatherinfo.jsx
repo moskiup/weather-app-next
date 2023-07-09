@@ -1,8 +1,13 @@
 import Moment from 'react-moment';
 import { getTempFormat } from '@/utils/utils';
 import { Card } from './card';
+import { useMyContext } from '@/context/myContext';
 
-export function WeatherInfo({prefix, title, data, isMetric  , formatCard}) {
+export function WeatherInfo({prefix, title, data , formatCard}) {
+
+  const { isMetric  } = useMyContext();
+
+
   return (
     <div className="m-2">
       <h2>{title}</h2>

@@ -1,5 +1,8 @@
-import { useWeather } from '@/hooks/useWeather';
-export function Header({ setCity, cities }) {
+import { useMyContext } from "@/context/myContext";
+
+export  function Header({ setCity }) {
+  const {cities} = useMyContext();
+
   return (
     <div className="hidden md:flex items-center justify-around my-6">
       {cities &&
@@ -11,3 +14,4 @@ export function Header({ setCity, cities }) {
     </div>
   );
 }
+
