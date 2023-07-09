@@ -1,9 +1,8 @@
-import Image from 'next/image';
 import Moment from 'react-moment';
 import { getTempFormat } from '@/utils/utils';
 import { Card } from './card';
 
-export function WeatherInfo({prefix, title, data, isMetric }) {
+export function WeatherInfo({prefix, title, data, isMetric  , formatCard}) {
   return (
     <div className="m-2">
       <h2>{title}</h2>
@@ -15,7 +14,7 @@ export function WeatherInfo({prefix, title, data, isMetric }) {
             return (
               <Card
                 key={key}
-                texttop={<Moment date={x.time} format="hh:mm A" />}
+                texttop={<Moment date={x.time} format={formatCard} />}
                 textbottom={getTempFormat(x.temp, isMetric)}
                 imgurl={x.url_icon}
               />
