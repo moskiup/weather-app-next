@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { getDailyData, getDayData, getDayHourData, getLangLong } from '@/services/api';
+import { getAllData, getDailyData, getDayData, getDayHourData, getLangLong  } from '@/services/api';
 import { useLocalStorage } from './useLocalStore';
 import { get as getcache, set as setcache } from './useCache';
 
 let cities_latlon = {};
 const timecache = 5*3600;
+
 
 export function useWeather() {
   const [today, setToday] = useState({});
@@ -12,10 +13,10 @@ export function useWeather() {
   const [daily, setDaily] = useState(null);
   const [error, setError] = useState(null);
   const [isMetric, setIsMetric] = useState(true);
-  const [lisMetric, lsetIsMetric] = useLocalStorage('metric', true);
+  const [lisMetric, localsetIsMetric] = useLocalStorage('metric', true);
 
   const [isLoading, setLoading] = useState(true);
-  const [gps, setGps] = useState({ lat: 19.4285, lon: -99.1277 });
+  const [gps, setGps] = useState({lat:0, lon:0});
   const [cities, setCities] = useState(['mexico city', 'sydney', 'new york', 'london', 'tokio']);
   const [lcities, lsetCities] = useLocalStorage('cities', [
     'mexico city',
@@ -27,6 +28,7 @@ export function useWeather() {
   let city = '';
 
 
+  console.log("rerender");
   //LOAD CONFIGURATION
   useEffect(() => {
     setCities(lcities);
@@ -34,6 +36,7 @@ export function useWeather() {
     setIsMetric(lisMetric);
   }, []);
 
+  //CHANGING CITY
   useEffect(() => {
     const today_data = async () => {
       try {
@@ -45,20 +48,18 @@ export function useWeather() {
         
         if (getcache(cache_today) === undefined) {
           const prom1 = getDayData(gps.lat, gps.lon, isMetric);
-          const prom2 = getDayHourData(gps.lat, gps.lon);
-          const prom3 = getDailyData(gps.lat, gps.lon);
+          const prom4 = getAllData(gps.lat , gps.lon);
 
-          
-          Promise.all([prom1, prom2, prom3])
+          Promise.all([prom1,  prom4])
           .then((values) => {
+            
             if (getcache(cache_today) === undefined) setcache(cache_today, values[0], timecache);
             if (getcache(cache_hourly) === undefined) setcache(cache_hourly, values[1], timecache);
             if (getcache(cache_daily) === undefined) setcache(cache_daily, values[2], timecache);
 
-            setToday(values[0]);
-              setHourly(values[1]);
-              setDaily(values[2]);
-              setLoading(false);
+              setToday(values[0]);
+              setHourly(values[1].hourly);
+              setDaily(values[1].daily);
             })
             .catch((error) => {
               throw error;
@@ -68,29 +69,31 @@ export function useWeather() {
           setToday(getcache(cache_today));
           setHourly(getcache(cache_hourly));
           setDaily(getcache(cache_daily));
-          setLoading(false);
 
         } 
       } catch (err) {
+        console.error(err)
         setError(err);
+      }finally{
         setLoading(false);
-
-        console.log(err);
       }
-    };
 
-    today_data();
+    };
+    if(gps.lat !== 0 && gps.lon !== 0)
+      today_data();
   }, [gps]);
 
   function changeUnits(val) {
     setIsMetric(val);
-    lsetIsMetric(val);
+    localsetIsMetric(val);
   }
 
   async function setCity(_city, fisrtTime = false) {
+
     _city = _city.toLowerCase();
 
     try {
+    
       if (_city === city && !fisrtTime) return;
       if (_city !== '' || fisrtTime) {
         if (cities[0] !== _city) {
@@ -101,7 +104,6 @@ export function useWeather() {
         }
         if (cities_latlon[_city] === undefined) {
           const data3 = await getLangLong(_city);
-          if (data3.length === 0) throw new Error('City doesnt exist');
           cities_latlon[_city] = { lat: data3[0], lon: data3[1] };
         }
 

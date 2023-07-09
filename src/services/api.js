@@ -1,92 +1,126 @@
-const BASE_URL = 'https://api.openweathermap.org/data/2.5/';
+const BASE_URL = 'https://api.openweathermap.org/';
+const URL_ICON = `https://openweathermap.org/img/wn`;
 const API_KEY = process.env.NEXT_PUBLIC_APIKEY;
 import { respuesta } from './fake-response';
 
 function urlIcon(code) {
-  const list_images = {
-    mist: 'mist.svg',
-    clear: 'clear-sky.svg',
-    drizzle: 'drizzle.svg',
-    fewcloud: 'few-cloud.svg',
-    overcast: 'overcast-cloud.svg',
-    rain: 'rain.svg',
-    snow: 'snow.svg',
-    thunderstorm: 'thunderstorm.svg',
-  };
-
-  const list_codes = {
-    '50d': list_images.mist,
-    '01d': list_images.clear,
-    '52d': list_images.drizzle,
-    '53d': list_images.fewcloud,
-    '04d': list_images.overcast,
-    '10d': list_images.rain,
-    '56d': list_images.snow,
-    '57d': list_images.thunderstorm,
-    default: list_images.clear,
-  };
-
-  const url = `https://openweathermap.org/img/wn/${code}@2x.png`;
-  return url;
+  return `${URL_ICON}/${code}@2x.png`;
 }
 
-async function getAllData() {
+async function getAllData(lat, lon) {
+
   const data = await fetch(
-    `${BASE_URL}weather?lat=${lat}&lon=${long}&exclude=minutely,alerts&appid=${API_KEY}&units=metric`
+    `${BASE_URL}data/3.0/onecall?lat=${lat}&lon=${lon}&exclude=minutely,alerts&appid=${API_KEY}&units=metric`
   )
     .then((resp) => resp.json())
-    .then((data) => data)
-    .catch((erro) => console.log(erro));
+    .then((data) => {
+      //GET DAILY DATA
+      const res_daily = data.daily.slice(0, 5).map((w) => {
+        return {
+          time: new Date(w.dt * 1000),
+          weather: w.weather,
+          temp: w.temp.day,
+          url_icon: urlIcon(w.weather[0].icon),
+        };
+      });
+
+      //GET HOURLY DATA
+      const res_hourly = data.hourly.slice(0, 5).map((w) => {
+        return {
+          time: new Date(w.dt * 1000),
+          weather: w.weather,
+          temp: w.temp,
+          url_icon: urlIcon(w.weather[0].icon),
+        };
+      });
+
+      //GET TODAY DATA
+      const { daily, timezone, current } = data;
+      const today = {
+        lat: lat,
+        lon: lon,
+        wind_speed: current.wind_speed,
+        sunset: new Date(current.sunset * 1000),
+        sunrise: new Date(current.sunrise * 1000),
+        url_icon: urlIcon(current.weather[0].icon),
+        name: current.weather[0].main,
+        now: new Date(current.t * 1000),
+        weather: current.weather[0],
+        humidity: current.humidity,
+        temp: current.temp,
+        feels_like: daily[0].feels_like,
+        temp_min: daily[0].temp_min,
+        temp_max: daily[0].temp_max,
+        pressure: daily[0].pressure,
+        timezone: timezone / 3600,
+      };
+
+      return { daily: res_daily, hourly: res_hourly, today };
+    })
+    .catch((erro) => erro);
+  return data;
 }
 
 async function getLangLong(city) {
-  const data1 = await fetch(`${BASE_URL}weather?q=${city}&appid=${API_KEY}`)
+  const data1 = await fetch(`${BASE_URL}data/2.5/weather?q=${city}&appid=${API_KEY}`)
     .then((resp) => resp.json())
     .then((data) => [data.coord.lat, data.coord.lon])
-    .catch((erro) => []);
+    .catch((erro) => { throw new Error("City doesnt exist")});
   return data1;
 }
 
-async function getDayData(lat, long, metric = true) {
+async function getDayData(lat, lon) {
+ try {
   const data1 = await fetch(
-    `${BASE_URL}weather?lat=${lat}&lon=${long}&appid=${API_KEY}&units=metric`
+    `${BASE_URL}data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`
   )
     .then((resp) => resp.json())
-    .then((data) => data)
-    .catch((erro) => console.log(erro));
+    .then((data) => {
 
-  const { coord, wind, sys, timezone, name, main, weather, dt } = data1;
-  const parsedData = {
-    lat: coord.lat,
-    lon: coord.lon,
-    wind_speed: wind.speed,
-    sunset: new Date(sys.sunset * 1000),
-    sunrise: new Date(sys.sunrise * 1000),
-    url_icon: urlIcon(weather[0].icon),
-    name,
-    now: new Date(dt * 1000),
-    weather: weather[0],
-    humidity: main.humidity,
-    temp: main.temp,
-    feels_like: main.feels_like,
-    temp_min: main.temp_min,
-    temp_max: main.temp_max,
-    pressure: main.pressure,
-    timezone: timezone / 3600,
-  };
+      if(data.cod!== 200)
+        throw new Error("Failed loading API")
 
-  return parsedData;
+      const { coord, wind, sys, timezone, name, main, weather, dt } = data;
+
+      const parsedData = {
+        lat: coord?.lat,
+        lon: coord?.lon,
+        wind_speed: wind.speed,
+        sunset: new Date(sys.sunset * 1000),
+        sunrise: new Date(sys.sunrise * 1000),
+        url_icon: urlIcon(weather[0].icon),
+        name,
+        now: new Date(dt * 1000),
+        weather: weather[0],
+        humidity: main.humidity,
+        temp: main.temp,
+        feels_like: main.feels_like,
+        temp_min: main.temp_min,
+        temp_max: main.temp_max,
+        pressure: main.pressure,
+        timezone: timezone / 3600,
+      };
+
+      return parsedData;
+    })
+    .catch((erro) => {
+      throw  erro;
+    });
+    return data1;
+ } catch (error) {
+    throw error;  
+}
+  
 }
 async function getDayHourData(lat, long) {
-  // const data = await fetch(
-  //   `${BASE_URL}onecall?lat=${lat}&lon=${long}&exclude=minutely,alerts,current&appid=${API_KEY}&units=metric`
-  // )
-  //   .then((resp) => resp.json())
-  //   .catch((erro) => console.log(erro));
+  const data = await fetch(
+    `${BASE_URL}onecall?lat=${lat}&lon=${long}&exclude=minutely,alerts,current&appid=${API_KEY}&units=metric`
+  )
+    .then((resp) => resp.json())
+    .catch((erro) => console.log(erro));
 
-  // console.log(data);
 
-  const data = respuesta;
+  // const data = respuesta;
   const result = data.hourly.map((w) => {
     return {
       time: new Date(w.dt * 1000),
@@ -100,13 +134,13 @@ async function getDayHourData(lat, long) {
 }
 
 async function getDailyData(lat, long) {
-  // const data = await fetch(
-  //   `${BASE_URL}onecall?lat=${lat}&lon=${long}&exclude=minutely,alerts,current&appid=${API_KEY}&units=metric`
-  // )
-  //   .then((resp) => resp.json())
-  //   .catch((erro) => console.log(erro));
+  const data = await fetch(
+    `${BASE_URL}onecall?lat=${lat}&lon=${long}&exclude=minutely,alerts,current&appid=${API_KEY}&units=metric`
+  )
+    .then((resp) => resp.json())
+    .catch((erro) => console.log(erro));
 
-  const data = respuesta;
+  // const data = respuesta;
   const result = data.daily.map((w) => {
     return {
       time: new Date(w.dt * 1000),
@@ -118,4 +152,4 @@ async function getDailyData(lat, long) {
   return result.slice(1, 6);
 }
 
-export { getDayData, getDayHourData, getDailyData, getLangLong };
+export { getDayData, getDayHourData, getDailyData, getLangLong, getAllData };
