@@ -3,6 +3,8 @@ import { UilSearch, UilLocationPoint } from '@iconscout/react-unicons';
 import { getGPS } from '@/utils/utils';
 
 export function Inputs({ setGps, isMetric, changeUnits, setCity }) {
+
+
   const refElem = useRef(null);
 
   function handleUnits(val) {
@@ -11,7 +13,6 @@ export function Inputs({ setGps, isMetric, changeUnits, setCity }) {
 
   function handleSearch() {
     const val = refElem.current.value;
-    console.log(val);
     if (val !== '') setCity(val);
     refElem.current.value = '';
   }
