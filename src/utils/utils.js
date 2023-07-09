@@ -1,4 +1,8 @@
 export function getTempFormat(temp , ismetric ){
+
+  if(!temp)
+    return 0;
+    
   if(ismetric)
     return `${temp.toFixed(0)}º`;
   
