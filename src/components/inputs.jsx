@@ -1,21 +1,22 @@
 'use client';
 
-import { useRef } from 'react';
+import { useCallback, useRef , memo} from 'react';
 import { UilSearch, UilLocationPoint } from '@iconscout/react-unicons';
 import { getGPS } from '@/utils/utils';
 import { useMyContext } from '@/context/myContext';
 
-export function Inputs({ changeUnits, setCity }) {
-  const { updateContext, isMetric } = useMyContext();
+function _Inputs() {
+  const { updateContext, isMetric  } = useMyContext();
   const refElem = useRef(null);
 
-  function handleUnits(val) {
+  const handleUnits = useCallback( (val) => {
+    console.log("inputs Mounted")
     updateContext({isMetric:val})
-  }
+  } ,[] )
 
   function handleSearch() {
     const val = refElem.current.value;
-    if (val !== '') setCity(val);
+    if (val !== '') updateContext({curCity:val});
     refElem.current.value = '';
   }
 
@@ -39,7 +40,7 @@ export function Inputs({ changeUnits, setCity }) {
       <button className="m-0" aria-label="Search" onClick={handleSearch}>
         <UilSearch size={35} className="text-white" />
       </button>
-      <button onClick={async () => updateContext(await getGPS())} aria-label="Get location gps">
+      <button onClick={async () => updateContext({gps: await getGPS()})} aria-label="Get location gps">
         <UilLocationPoint size={35} className="text-white" />
       </button>
       <div className="flex flex-row w-1/4 items-center justify-center">
@@ -66,3 +67,5 @@ export function Inputs({ changeUnits, setCity }) {
     </div>
   );
 }
+
+export const Inputs = memo(_Inputs);

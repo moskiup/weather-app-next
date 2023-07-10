@@ -1,8 +1,17 @@
 
-GET
-https://api.openweathermap.org/data/3/onecall?lat=20.6667&lon=-103.3333&exclude=minutely&appid=73023ffd0325ec02832b91e190a04f6d
+GET https://api.openweathermap.org/weather?lat=20.6167&lon=-103.2333&appid=73023ffd0325ec02832b91e190a04f6d&units=metric
 
 ###
-GET
-http://api.openweathermap.org/data/2.5/weather?lat=20.6667&lon=-103.3333&appid=73023ffd0325ec02832b91e190a04f6d&units=metric
+GET http://api.openweathermap.org/data/2.5/weather?lat=20.6667&lon=-103.3333&appid=73023ffd0325ec02832b91e190a04f6d&units=metric
 
+###
+GET https://api.openweathermap.org/data/3/onecall?lat=20.6667&lon=-103.3333&exclude=minutely&appid=1fa9ff4126d95b8db54f3897a208e91c
+
+###
+GET https://api.openweathermap.org/data/3/onecall?lat=20.6667&lon=-103.3333&exclude=minutely&appid=863242cfb2b1d357e6093d9a4df19a4b
+
+###
+GET https://api.openweathermap.org/data/3.0/onecall?lat=33.44&lon=-94.04&exclude=hourly,daily&appid=73023ffd0325ec02832b91e190a04f6d
+
+###
+GET https://api.openweathermap.org/data/2.5/weather?lat=20.6167&lon=-103.2333&appid=73023ffd0325ec02832b91e190a04f6d&units=metric

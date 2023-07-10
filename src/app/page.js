@@ -1,21 +1,23 @@
 "use client"
 
 import { Today } from '@/components/today';
-import { useWeather } from '@/hooks/useWeather';
-import { WeatherInfo } from '@/components/weatherinfo';
 import { Loader } from '@/components/loader';
 import { Inputs } from '@/components/inputs';
 import { Header } from '@/components/header';
 import { useMyContext } from '@/context/myContext';
 import { DailyInfo } from '@/components/dailyinfo';
 import { HourlyInfo } from '@/components/hourlyinfo';
+import { useWeather } from '@/hooks/useWeather';
+import Prueba from '@/components/Prueba';
+import { useMemo } from 'react';
 
 
+const isLoading = false;
 export default function Home() {
-    const {  setGps, changeUnits, setCity,  error } =
-    useWeather();
-    const {isLoading ,  weatherResponse , cities} = useMyContext();
+  // const {setCity} = useWeather();
+    // const {isLoading} = useMyContext();
 
+  console.log("cargando home")
     // if(error){
   //   return (<h1>{error.message}</h1>)
   // }
@@ -26,11 +28,12 @@ export default function Home() {
         <Loader />
       ) : (
         <div className="flex flex-col w-full">
-          <Header setCity={setCity} />
-          <Inputs setGps={setGps}  changeUnits={changeUnits} setCity={setCity} />
-          <Today />
+          {/* <Prueba /> */}
+          <Header />
+          <Inputs />
+          {/*<Today />
           <HourlyInfo />
-          <DailyInfo />
+          <DailyInfo /> */}
         </div>
       )}
     </>

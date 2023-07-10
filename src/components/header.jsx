@@ -1,8 +1,10 @@
 import { useMyContext } from "@/context/myContext";
+import { memo} from 'react'
 
-export  function Header({ setCity }) {
+function _Header({ setCity }) {
   const {cities} = useMyContext();
 
+  console.log('cargando header', cities)
   return (
     <div className="hidden md:flex items-center justify-around my-6">
       {cities &&
@@ -15,3 +17,4 @@ export  function Header({ setCity }) {
   );
 }
 
+export const Header  = memo(_Header)

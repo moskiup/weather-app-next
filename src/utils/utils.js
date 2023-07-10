@@ -9,19 +9,22 @@ export function getTempFormat(temp , ismetric ){
   return `${(temp*(9/5) + 32).toFixed(0)}º`;
 }
 
-export function getGPS(setGps) {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      function (position) {
-        const lat = position.coords.latitude;
-        const lon = position.coords.longitude;
-        setGps({ lat, lon });
-      },
-      function (error) {
-        console.log('Error getting location:', error.message);
-      }
-    );
-  } else {
-    console.log('Geolocation is not supported by this browser.');
-  }
-}
+export const getGPS = () => {
+  return new Promise((resolve, reject) => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        function (position) {
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
+          resolve({ lat, lon });
+        },
+        function (error) {
+          console.log('Error getting location:', error.message);
+          reject({ error });
+        }
+      );
+    } else {
+      reject({ error: "Geolocation is not supported" });
+    }
+  });
+};

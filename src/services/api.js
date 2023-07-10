@@ -61,10 +61,10 @@ async function getAllData(lat, lon) {
   return data;
 }
 
-async function getLangLong(city) {
+async function getLanLon(city) {
   const data1 = await fetch(`${BASE_URL}data/2.5/weather?q=${city}&appid=${API_KEY}`)
     .then((resp) => resp.json())
-    .then((data) => [data.coord.lat, data.coord.lon])
+    .then((data) => [data.coord.lat, data.coord.lon , data.name])
     .catch((erro) => { throw new Error("City doesnt exist")});
   return data1;
 }
@@ -81,7 +81,6 @@ async function getDayData(lat, lon) {
         throw new Error("Failed loading API")
 
       const { coord, wind, sys, timezone, name, main, weather, dt } = data;
-
       const parsedData = {
         lat: coord?.lat,
         lon: coord?.lon,
@@ -152,4 +151,4 @@ async function getDailyData(lat, long) {
   return result.slice(1, 6);
 }
 
-export { getDayData, getDayHourData, getDailyData, getLangLong, getAllData };
+export { getDayData, getDayHourData, getDailyData, getLanLon , getAllData };

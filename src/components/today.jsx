@@ -12,12 +12,12 @@ import Image from 'next/image';
 import Moment from 'react-moment';
 import { getTempFormat } from '@/utils/utils';
 import { useMemo } from 'react';
+import { useMyContext } from '@/context/myContext';
 
-export function Today({ data, isMetric }) {
+export function Today() {
   
-
-  // console.log("entro today");
-  // console.log({data});
+  const { isMetric , weatherResponse } = useMyContext();
+  const data = weatherResponse.today;
 
   
 
