@@ -15,7 +15,7 @@ function getNamedCache(namespace) {
   return cacheStore[namespace];
 }
 
-export function useNamespace(namespace) {
+function _useNamespace(namespace) {
   const namedCache = getNamedCache(namespace);
 
   function get(key) {
@@ -69,6 +69,7 @@ export function useNamespace(namespace) {
   return { get, set, timeTillExpires, remove, removeAll };
 }
 
+const { get, set, timeTillExpires, remove } = _useNamespace(defaultNamespace);
 //We don't expose removeAll on the defaultNamespace.
 //We only allow remove all on custom namespaces
-// module.exports = { get, set, timeTillExpires, remove, useNamespace };
+module.exports = { get, set, timeTillExpires, remove, useNamespace: _useNamespace };
