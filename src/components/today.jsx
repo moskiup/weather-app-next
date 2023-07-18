@@ -15,11 +15,8 @@ import { useMemo } from 'react';
 import { useMyContext } from '@/context/myContext';
 
 export function Today() {
-  
-  const { isMetric , weatherResponse } = useMyContext();
+  const { isMetric, weatherResponse } = useMyContext();
   const data = weatherResponse.today;
-
-  
 
   return (
     data && (
@@ -32,46 +29,48 @@ export function Today() {
   );
 
   function TodayFooter() {
-    return <div className="p-4 flex justify-between text-sm md:text-sm flex-wrap w-full">
-      <div className="w-2/4 md:w-1/4 flex justify-center order-1 md:order-1">
-        <UilSun />
-        <span className="md:mx-2 ">
-          Rise: <Moment date={data.sunrise} format={'hh:mm A'} />
-        </span>
-        <span className="hidden md:block">|</span>
-      </div>
-      <div className="w-2/4  md:w-1/4 flex justify-center order-3 md:order-2">
-        <UilSunset />
-        <span className="md:mx-2 ">
-          Set: <Moment date={data.sunset} format={'hh:mm A'} />
-        </span>
-        <span className="hidden md:block">|</span>
-      </div>
+    return (
+      <div className="p-4 flex justify-between text-sm md:text-sm flex-wrap w-full">
+        <div className="w-2/4 md:w-1/4 flex justify-center order-1 md:order-1">
+          <UilSun />
+          <span className="md:mx-2 ">
+            Rise: <Moment date={data.sunrise} format={'hh:mm A'} />
+          </span>
+          <span className="hidden md:block">|</span>
+        </div>
+        <div className="w-2/4  md:w-1/4 flex justify-center order-3 md:order-2">
+          <UilSunset />
+          <span className="md:mx-2 ">
+            Set: <Moment date={data.sunset} format={'hh:mm A'} />
+          </span>
+          <span className="hidden md:block">|</span>
+        </div>
 
-      <div className="w-2/4  md:w-1/4 flex justify-center order-2 md:order-3">
-        <UilArrowUp />
-        <span className="md:mx-2 justify-center">
-          {' '}
-          High: {getTempFormat(data.temp_max, isMetric)}
-        </span>
-        <span className="hidden md:block">|</span>
-      </div>
+        <div className="w-2/4  md:w-1/4 flex justify-center order-2 md:order-3">
+          <UilArrowUp />
+          <span className="md:mx-2 justify-center">
+            {' '}
+            High: {getTempFormat(data.temp_max, isMetric)}
+          </span>
+          <span className="hidden md:block">|</span>
+        </div>
 
-      <div className=" w-2/4 md:w-1/4 flex justify-center order-4 md:order-4">
-        <UilArrowDown />
-        <span className="md:ml-2">Low: {getTempFormat(data.temp_min, isMetric)} </span>
+        <div className=" w-2/4 md:w-1/4 flex justify-center order-4 md:order-4">
+          <UilArrowDown />
+          <span className="md:ml-2">Low: {getTempFormat(data.temp_min, isMetric)} </span>
+        </div>
+        <p></p>
       </div>
-      <p></p>
-    </div>;
+    );
   }
 
   function TodayHeader() {
     return (
-      <p className="m-4 text-lg flex">
+      <p className="m-4 text-lg flex uppercase">
         <Moment date={data.now} format="DD MMM YYYY" utc />
-        <span className="mx-4">|</span>
-        <span className="hidden md:block"> Local time :</span>
-        <Moment date={data.now} format="hh:mm A" utc />
+        {/* <span className="mx-4">|</span> */}
+        {/* <span className="hidden md:block"> Local time :</span>
+        <Moment date={data.now} format="hh:mm A" utc /> */}
       </p>
     );
   }

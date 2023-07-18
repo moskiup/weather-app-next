@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import { Today } from '@/components/today';
 import { Loader } from '@/components/loader';
@@ -11,29 +11,27 @@ import { useWeather } from '@/hooks/useWeather';
 import Prueba from '@/components/Prueba';
 import { useMemo } from 'react';
 
-
 const isLoading = false;
 export default function Home() {
   // const {setCity} = useWeather();
-    // const {isLoading} = useMyContext();
+  // const {isLoading} = useMyContext();
 
-  console.log("cargando home")
-    // if(error){
+  console.log('cargando home');
+  // if(error){
   //   return (<h1>{error.message}</h1>)
   // }
 
   return (
     <>
-      {isLoading  ? (
+      {isLoading ? (
         <Loader />
       ) : (
         <div className="flex flex-col w-full">
-          {/* <Prueba /> */}
           <Header />
           <Inputs />
-          {/*<Today />
+          <Today />
           <HourlyInfo />
-          <DailyInfo /> */}
+          <DailyInfo />
         </div>
       )}
     </>
