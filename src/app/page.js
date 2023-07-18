@@ -5,7 +5,7 @@ import { Loader } from '@/components/loader';
 import { Inputs } from '@/components/inputs';
 import { Header } from '@/components/header';
 import { useMyContext } from '@/context/myContext';
-import { DailyInfo } from '@/components/dailyinfo';
+import { DailyInfo } from '@/components/dailyInfo';
 import { HourlyInfo } from '@/components/hourlyinfo';
 import { useWeather } from '@/hooks/useWeather';
 import Prueba from '@/components/Prueba';
